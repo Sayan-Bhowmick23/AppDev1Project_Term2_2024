@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" href="static\style.css" /> -->
+    <style>
+      body {
+        text-align: center;
+      }
+      .text,
+      .hyperlinks {
+        padding-top: 10px;
+      }
+    </style>
+    <title>Welcome to the App</title>
+  </head>
+  <body>
+    <div class="heading">
+      <h1>Welcome to the App!</h1>
+    </div>
+    <div class="text">
+      <h3>
+        This is a simple app that allows you to signup as a sponsor or an
+        influencer.
+      </h3>
+    </div>
+    <div class="hyperlinks">
+      <h3>
+        Please click on the link to login:
+        <a href="{{url_for('authentication.user_login')}}">Login</a>
+      </h3>
+      <h3>
+        Please click on the link to register:
+        <a href="{{url_for('authentication.user_register')}}">Register</a>
+      </h3>
+    </div>
+  </body>
+</html>

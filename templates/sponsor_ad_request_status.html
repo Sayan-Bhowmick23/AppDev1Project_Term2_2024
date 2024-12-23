@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Page</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <style>
+      .navbar-nav .nav-item .nav-link {
+        color: white;
+      }
+      .navbar-nav .nav-item .nav-link:hover {
+        background-color: #04aa6d;
+      }
+      .navbar-nav .nav-item .active {
+        background-color: #04aa6d;
+      }
+      .btn-add-task {
+        background-color: #04aa6d;
+        color: white;
+      }
+      .btn-add-task:hover {
+        background-color: #028a50;
+      }
+      .search-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 50px;
+      }
+
+      .search-container input[type="search"] {
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px 0 0 4px;
+        width: 300px;
+      }
+
+      .search-container button {
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-left: none;
+        background-color: #2196f3;
+        color: white;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+      }
+
+      .search-container button:hover {
+        background-color: #0b7dda;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a
+        class="navbar-brand"
+        href="{{ url_for('authentication.influencer_dashboard') }}">
+        Profile of {{ username }}
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a
+              class="nav-link"
+              href="{{ url_for('authentication.influencer_dashboard') }}"
+              ><i class="fa fa-fw fa-home"></i> Home</a
+            >
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="{{ url_for('authentication.user_logout') }}"
+              ><i class="fa fa-fw fa-sign-out"></i> Logout</a
+            >
+          </li>
+        </ul>
+
+        <!-- <button class="btn btn-add-task" type="button">
+          <i class="fa fa-fw fa-plus"></i> Add New Task
+        </button> -->
+      </div>
+    </nav>
+    <div class="container mt-5">
+      <!-- Content goes here -->
+
+      <!-- Flash messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %}
+      <div class="flashes">
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+          {{ message }}
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %} {% endwith %}
+
+      <div id="container">
+        <h4>List of AdRequests</h4>
+        {% for ad_request in ad_requests %} {% if ad_request %} {% if
+        ad_request.status == "Accepted" %}
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">AdRequest id: {{ ad_request.id }}</h5>
+            <h5 class="card-title">
+              Campaign id: {{ ad_request.campaign_id }}
+            </h5>
+            <p class="card-text">
+              <strong>Message:</strong> {{ ad_request.messages }}
+            </p>
+            <p class="card-text">
+              <strong>End Date: </strong>{{ ad_request.requirements }}
+            </p>
+            <p class="card-text">
+              <strong>AdRequest Payment Amount: </strong>{{
+              ad_request.payment_amount }}
+            </p>
+            <p class="card-text">
+              <strong>AdRequest Status: </strong>{{ ad_request.status }}
+            </p>
+          </div>
+        </div>
+        {% else %}
+        <h4>No AdRequest has been accepted by you</h4>
+        {% endif %} {% endif %} {% endfor %}
+      </div>
+      <br />
+
+      <!-- <div class="d-flex justify-content-md-center">
+          <button type="button" class="btn btn-success">+</button>
+        </div> -->
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </body>
+</html>

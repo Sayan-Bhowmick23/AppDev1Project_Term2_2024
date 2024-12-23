@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Page</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .registration-form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+      }
+      .registration-form h2 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        text-align: center;
+      }
+      .registration-form .form-group {
+        margin-bottom: 15px;
+      }
+      .registration-form .form-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      .registration-form .form-group input,
+      .registration-form .form-group select {
+        width: 90%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .registration-form .form-group select {
+        appearance: none;
+      }
+      .registration-form .form-group input[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      .registration-form .form-group input[type="submit"]:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flashes">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    <div class="registration-form">
+    <a href="{{ url_for("controllers.home") }}"> Home </a>
+    <form action="{{ url_for("authentication.user_register") }}" method="POST">
+      <h2>Register</h2>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+      </div>
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+      </div>
+      <div class="form-group">
+        <label for="industry">Industry:</label>
+        <input type="text" id="industry" name="industry" />
+      </div>
+      <div class="form-group">
+        <label for="category">Category:</label>
+        <input type="text" id="category" name="category" />
+      </div>
+      <div class="form-group">
+        <label for="total_reach">Total Reach</label>
+        <input type="text" id="total_reach" name="total_reach" />
+      </div>
+      <div>
+        <h5>Platform Presence</h5>
+        <input type="checkbox" name="facebook" id="facebook">
+        <label for="facebook">Facebook</label> <br>
+        <input type="checkbox" name="twitter" id="twitter">
+        <label for="twitter">Twitter</label> <br>
+        <input type="checkbox" name="instagram" id="instagram">
+        <label for="instagram">Instagram</label> <br>
+        <input type="checkbox" name="youtube" id="youtube">
+        <label for="youtube">Youtube</label>
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="dropdown">Select an option:</label>
+        <select id="dropdown" name="dropdown" required>
+          <option value="" disabled selected>Choose your category</option>
+          <option value="influencer">Influencer</option>
+          <option value="sponsor">Sponsor</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Register" />
+      </div>
+    </form>
+    </div>
+  </body>
+</html>

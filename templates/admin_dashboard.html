@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Page</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <style>
+      .navbar-nav .nav-item .nav-link {
+        color: white;
+      }
+      .navbar-nav .nav-item .nav-link:hover {
+        background-color: #04aa6d;
+      }
+      .navbar-nav .nav-item .active {
+        background-color: #04aa6d;
+      }
+      .btn-add-task {
+        background-color: #04aa6d;
+        color: white;
+      }
+      .btn-add-task:hover {
+        background-color: #028a50;
+      }
+      .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .search-container input[type="search"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+            width: 300px;
+        }
+
+        .search-container button {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-left: none;
+            background-color: #2196F3;
+            color: white;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+
+        .search-container button:hover {
+            background-color: #0b7dda;
+        }
+
+        body {
+              font-family: Arial, sans-serif;
+              margin: 20px;
+            }
+
+        .search-panel {
+              margin-bottom: 20px;
+              }         
+
+        .search-panel input, .search-panel select, .search-panel button {
+                    margin: 5px;
+                }
+
+        .results {
+              margin-top: 20px;
+          }
+
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="{{ url_for('authentication.admin_dashboard') }}">Profile of {{ username }}</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('authentication.admin_dashboard') }}"
+              ><i class="fa fa-fw fa-home"></i>Home</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for("authentication.user_logout") }}">
+              <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+          </li>
+        </ul>
+      </div>
+    <!-- <div class="search-container">
+        <form action="#" method="get">
+            <input type="search" name="search" placeholder="Search...">
+            <button type="submit">Search</button>
+        </form>
+    </div> -->
+    </nav>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flashes">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="container mt-5">
+        <form action="{{ url_for('authentication.admin_search') }}" method="POST">
+          <div class="search-panel">
+            <input type="text" id="searchInput" placeholder="Search..." name="search">
+            <br> <br>
+
+              <input type="radio" id="all" name="radio" value="all">
+              <label for="all">All</label> &nbsp;
+
+              <input type="radio" id="influencer" name="radio" value="influencer">
+              <label for="influencer">Influencer</label> &nbsp;
+
+              <input type="radio" id="sponsor" name="radio" value="sponsor">
+              <label for="sponsor">For Sponsor</label> &nbsp;
+
+            <!-- <label for="dateFilter">Date:</label>
+            <input type="date" id="dateFilter"> -->
+           </div>
+          <input type="submit" value="Submit">
+          </div>
+        </form> 
+      </div>
+
+    <div class="container mt-5">
+      <h3>Influencer Table</h3>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Total Reach</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for influencer in influencers %}
+          {% if influencer.flag != 1 %}
+          <tr>
+            <td>{{ influencer.id }}</td>
+            <td>{{ influencer.username }}</td>
+            <td>{{ influencer.email }}</td>
+            <td>{{ influencer.role }}</td>
+            <td>{{ influencer.total_reach }}</td>
+            <td>
+              <form action="{{ url_for('authentication.flag_user', user_id = influencer.id) }}" method="POST" style="display:inline;">
+                <input type="submit" value="Flag">
+            </form>
+            </td>
+            <!-- <td>
+              <form action="{{ url_for('authentication.delete_user', user_id = influencer.id) }}" method="POST" style="display:inline;">
+                <input type="submit" value="Delete">
+            </form>
+            </td> -->
+          </tr>
+          {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="container mt-5">
+      <h3>Sponsor Table</h3>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Industry</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for sponsor in sponsors %}
+          {% if sponsor.flag != 1 %}
+          <tr>
+            <td>{{ sponsor.id }}</td>
+            <td>{{ sponsor.username }}</td>
+            <td>{{ sponsor.email }}</td>
+            <td>{{ sponsor.industry }}</td>
+            <td>
+               <form action="{{ url_for('authentication.flag_user', user_id = sponsor.id) }}" method="POST" style="display:inline;">
+                <input type="submit" value="Flag">
+            </form>
+            </td>
+            <!-- <td>
+              <form action="{{ url_for('authentication.delete_user', user_id = sponsor.id) }}" method="POST" style="display:inline;">
+                <input type="submit" value="Delete">
+            </form>
+            </td> -->
+          </tr>
+          {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="container mt-5">
+      <h3>List of Campaigns</h3>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Campaign Name</th>
+            <th>Sponsor ID</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Visibility</th>
+            <th>Budget</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for campaign in campaigns %}
+          <tr>
+            <td>{{ campaign.id }}</td>
+            <td>{{ campaign.name }}</td>
+            <td>{{ campaign.sponsor_id }}</td>
+            <td>{{ campaign.description }}</td>
+            <td>{{ campaign.start_date }}</td>
+            <td>{{ campaign.end_date }}</td>
+            <td>{{ campaign.visibility }}</td>
+            <td>{{ campaign.budget }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      </div>
+
+  <div class="container mt-5">
+      <h3>List of Ad Requests</h3>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Campaign ID</th>
+            <th>Influencer ID</th>
+            <th>Requirements</th>
+            <th>Messages</th>
+            <th>Payment Amount</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ad_request in ad_requests %}
+          <tr>
+            <td>{{ ad_request.id }}</td>
+            <td>{{ ad_request.campaign_id }}</td>
+            <td>{{ ad_request.influencer_id }}</td>
+            <td>{{ ad_request.requirements }}</td>
+            <td>{{ ad_request.messages }}</td>
+            <td>{{ ad_request.payment_amount }}</td>
+            <td>{{ ad_request.status }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>
+
+    <div class="container mt-5">
+      <h3>Flagged Users</h3>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for influencer in influencers %}
+            {% if influencer.flag == 1 %}
+                <tr>
+                  <td>{{ influencer.id }}</td>
+                  <td>{{ influencer.username }}</td>
+                  <td>{{ influencer.role }}</td>
+                  <td>
+                    <form action="{{ url_for('authentication.unflag_user', user_id = influencer.id) }}" method="POST" style="display:inline;">
+                      <input type="submit" value="Unflag">
+                  </form>
+                  </td>
+                </tr>
+            {% endif %}
+          {% endfor %}
+        <tbody>
+          {% for sponsor in sponsors %}
+            {% if sponsor.flag == 1 %}
+                <tr>
+                  <td>{{ sponsor.id }}</td>
+                  <td>{{ sponsor.username }}</td>
+                  <td>{{ sponsor.role }}</td>
+                  <td>
+                    <form action="{{ url_for('authentication.unflag_user', user_id = sponsor.id) }}" method="POST" style="display:inline;">
+                      <input type="submit" value="Unflag">
+                  </form>
+                  </td>
+                </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+    
+  </body>
+</html>

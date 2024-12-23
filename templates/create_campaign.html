@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .login-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        text-align: center;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+      }
+
+      .input-group {
+        margin-bottom: 15px;
+        text-align: left;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input {
+        width: 90%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+      .form-group {
+        appearance: none;
+        width: 90%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Campaign</title>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Create Campaign</h2>
+        <form action = {{ url_for("authentication.create_campaign") }} method="POST">
+        
+            <label for="name">Campaign Name</label>
+            <input type="text" name="name" required>   <br> <br>
+
+            <label for="description">Campaign Description</label>
+            <input type="text" name = "description" required>   <br> <br>
+
+            <label for="niche">Niche</label>
+            <input type="text" name = "niche" required>   <br> <br>
+
+            <label for="start_date">Start Date</label>
+            <input type="date" id="start_date" name="start_date" required"> <br><br>
+
+            <label for="end_date">End Date</label>
+            <input type="date" id="end_date" name="end_date" required> <br><br>
+ 
+            <label for="budget">Budget</label>
+            <input type="text" name = "budget" required>   <br> <br>
+            <label for="visibility">Visibility</label>
+            <!-- <input type="text" name="visibility" placeholder="Either Public or Private" required>   <br> <br> -->
+             <select class="form-group" name="visibility" id="visibility">
+              <option value="Public">Public</option>   <br> <br>
+              <option value="Private">Private</option>   <br> <br>
+             </select>
+
+            <label for="goals">Goals</label>
+            <input type="text" name="goals" required>
+            
+            <br> <br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

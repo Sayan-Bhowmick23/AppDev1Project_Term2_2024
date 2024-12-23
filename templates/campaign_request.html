@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .login-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        text-align: center;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+      }
+
+      .input-group {
+        margin-bottom: 15px;
+        text-align: left;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input {
+        width: 90%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+      .form-group {
+        appearance: none;
+        width: 90%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invite Influencer</title>
+  </head>
+  <body>
+    <div class="login-container">
+      <h2>Influencer to Sponsor Request</h2>
+      <form
+        action="{{ url_for('authentication.campaign_request', campaign_id = campaign_id) }}"
+        method="POST">
+        <label for="camp_name">Campaigns</label>
+        <select class="form-group" , name="camp_name" id="camp_name">
+          {% for campaign in campaigns %} {% if campaign.visibility != 'Private'
+          %}
+          <option value="{{ campaign.name }}">{{ campaign.name }}</option>
+          {% endif %} {% endfor %}
+        </select>
+        <br />
+        <br />
+
+        <label for="messages">Messages</label>
+        <input type="text" name="messages" /> <br />
+        <br />
+
+        <label for="requirements">Requirements</label>
+        <input type="text" name="requirements" />
+        <br />
+        <br />
+
+        <label for="payment_amount">Payment Amount</label>
+        <input type="text" name="payment_amount" />
+        <br />
+        <br />
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>
